@@ -1,9 +1,9 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Meow {
     private final Scanner scanner = new Scanner(System.in);
-    private final Task[] list = new Task[100];
-    private int count = 0;
+    private final ArrayList<Task> list = new ArrayList<>();
 
     private void startRun() {
 
@@ -77,7 +77,12 @@ public class Meow {
                     Event t = new Event(description, from, to);
                     printAddedTask(t);
 
-                } else {
+                } else if (words[0].equals("delete")) {
+                    if (words.length < 2) {
+                        throw new MeowException("OOPS!!! Please tell me which task number to delete.");
+                    }
+                    deleteTask(Integer.parseInt(words[1]) - 1);
+                }else {
                     throw new MeowException("OOPS!!! I'm sorry, but I don't know what that means :-(");
                 }
             } catch (MeowException e) {
@@ -101,24 +106,24 @@ public class Meow {
     }
 
     private void printAddedTask(Task task) {
-        list[count++] = task;
+        this.list.add(task);
         printLine();
         System.out.println("\tGot it. I've added this task:");
         System.out.println("\t  " + task);
-        System.out.println("\tNow you have " + this.count + " tasks in the list.");
+        System.out.println("\tNow you have " + this.list.size() + " tasks in the list.");
         printLine();
     }
 
     private void printList() {
         printLine();
-        for(int i = 0; i < count; i++){
-            System.out.println("\t" + (i + 1) + ". " + list[i]);
+        for(int i = 0; i < this.list.size(); i++){
+            System.out.println("\t" + (i + 1) + ". " + this.list.get(i));
         }
         printLine();
     }
 
     private void markDone(int index) {
-        Task task = list[index];
+        Task task = this.list.get(index);
         task.markDone();
         printLine();
         System.out.println("\tNice! I've marked this task as done:");
@@ -127,7 +132,7 @@ public class Meow {
     }
 
     private void markUndone(int index) {
-        Task task = list[index];
+        Task task = this.list.get(index);
         task.markUndone();
         printLine();
         System.out.println("\tOK, I've marked this task as not done yet:");
@@ -137,6 +142,18 @@ public class Meow {
 
     private void printLine() {
         System.out.println("\t____________________________________________________________");
+    }
+
+    private void deleteTask(int index) throws MeowException {
+        if (index < 0 || index >= list.size()) {
+            throw new MeowException("OOPS!!! The task number you provided is invalid.");
+        }
+        Task removedTask = list.remove(index);
+        printLine();
+        System.out.println("\tNoted. I've removed this task:");
+        System.out.println("\t  " + removedTask);
+        System.out.println("\tNow you have " + list.size() + " tasks in the list.");
+        printLine();
     }
 
     public static void main(String[] args) {

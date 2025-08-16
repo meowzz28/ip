@@ -13,4 +13,6 @@ blah
 event read book
 mark
 unmark
+delete 3
+list
 bye
