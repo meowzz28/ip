@@ -21,8 +21,24 @@ public class Meow {
                 markDone(Integer.parseInt(words[1]) - 1);
             } else if (words[0].equals("unmark")) {
                 markUndone(Integer.parseInt(words[1]) - 1);
-            }else {
-                printMessage(input);
+            } else if (words[0].equals("todo")) {
+                String description = input.substring("todo".length()).trim();
+                Todo t = new Todo(description);
+                printAddedTask(t);
+            } else if (words[0].equals("deadline")) {
+                String[] parts = input.split(" /by ", 2);
+                String description = parts[0].substring("deadline".length()).trim();
+                String by = parts[1].trim();
+                Deadline t = new Deadline(description, by);
+                printAddedTask(t);
+            } else if (words[0].equals("event")) {
+                String[] firstSplit = input.split(" /from ", 2);
+                String description = firstSplit[0].substring("event".length()).trim();
+                String[] secondSplit = firstSplit[1].split(" /to ", 2);
+                String from = secondSplit[0].trim();
+                String to = secondSplit[1].trim();
+                Event t = new Event(description, from, to);
+                printAddedTask(t);
             }
         }
     }
@@ -39,11 +55,12 @@ public class Meow {
         printLine();
     }
 
-    private void printMessage(String input) {
-        Task newTask = new Task(input);
-        list[count++] = newTask;
+    private void printAddedTask(Task task) {
+        list[count++] = task;
         printLine();
-        System.out.println("\tadded: " + input);
+        System.out.println("\tGot it. I've added this task:");
+        System.out.println("\t  " + task);
+        System.out.println("\tNow you have " + this.count + " tasks in the list.");
         printLine();
     }
 
@@ -59,8 +76,8 @@ public class Meow {
         Task task = list[index];
         task.markDone();
         printLine();
-        System.out.println("Nice! I've marked this task as done:");
-        System.out.println("  " + task);
+        System.out.println("\tNice! I've marked this task as done:");
+        System.out.println("\t  " + task);
         printLine();
     }
 
@@ -68,8 +85,8 @@ public class Meow {
         Task task = list[index];
         task.markUndone();
         printLine();
-        System.out.println("OK, I've marked this task as not done yet:");
-        System.out.println("  " + task);
+        System.out.println("\tOK, I've marked this task as not done yet:");
+        System.out.println("\t  " + task);
         printLine();
     }
 
