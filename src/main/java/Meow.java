@@ -1,7 +1,9 @@
 import java.util.Scanner;
 
 public class Meow {
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
+    private final String[] list = new String[100];
+    private int count = 0;
 
     private void startRun() {
         printGreetMessage();
@@ -10,6 +12,8 @@ public class Meow {
             if (input.equals("bye")) {
                 printExitMessage();
                 break;
+            } else if(input.equals("list")) {
+                printList();
             } else {
                 printMessage(input);
             }
@@ -30,7 +34,16 @@ public class Meow {
 
     private void printMessage(String input) {
         System.out.println("\t____________________________________________________________");
-        System.out.println("\t" + input);
+        System.out.println("\tadded: " + input);
+        System.out.println("\t____________________________________________________________");
+        list[count++] = input;
+    }
+
+    private void printList() {
+        System.out.println("\t____________________________________________________________");
+        for(int i = 0; i < count; i++){
+            System.out.println("\t" + (i + 1) + ". " + list[i]);
+        }
         System.out.println("\t____________________________________________________________");
     }
 
