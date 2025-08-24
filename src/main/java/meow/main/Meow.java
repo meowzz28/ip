@@ -1,3 +1,7 @@
+package meow.main;
+
+import meow.exception.MeowException;
+
 public class Meow {
 
     private Storage storage;

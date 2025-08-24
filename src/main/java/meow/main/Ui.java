@@ -1,3 +1,7 @@
+package meow.main;
+
+import meow.task.Task;
+
 import java.util.Scanner;
 
 public class Ui {
@@ -5,7 +9,7 @@ public class Ui {
 
     protected void printGreetMessage() {
         printLine();
-        System.out.println("\tHello! I'm Meow\n\tWhat can I do for you?");
+        System.out.println("\tHello! I'm meow.main.Meow\n\tWhat can I do for you?");
         printLine();
     }
 
@@ -43,7 +47,7 @@ public class Ui {
 
     protected void printMarked(Task task) {
         printLine();
-        if (task.isDone) {
+        if (task.isDone()) {
             System.out.println("\tNice! I've marked this task as done:");
         } else {
             System.out.println("\tOK, I've marked this task as not done yet:");

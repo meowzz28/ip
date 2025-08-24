@@ -1,3 +1,5 @@
+package meow.task;
+
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -26,5 +28,9 @@ public class Task {
     @Override
     public String toString() {
         return "[" + getStatusIcon() + "] "  + description;
+    }
+
+    public boolean isDone(){
+        return this.isDone;
     }
 }

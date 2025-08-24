@@ -1,3 +1,7 @@
+package meow.main;
+
+import meow.task.Task;
+
 import java.util.ArrayList;
 
 public class TaskList {
