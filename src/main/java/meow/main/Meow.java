@@ -2,6 +2,10 @@ package meow.main;
 
 import meow.exception.MeowException;
 
+/**
+ * Main class for Meow Java Project
+ * Responsible for the main interaction loop with the user
+ */
 public class Meow {
 
     private Storage storage;
@@ -19,6 +23,11 @@ public class Meow {
         }
     }
 
+    /**
+     * Runs the application.
+     * Continuously reads user input, parses commands, and updates tasks.
+     * Stops when the user issues the exit command.
+     */
     public void run() {
         ui.printGreetMessage();
         while (true) {

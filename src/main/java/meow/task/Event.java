@@ -3,6 +3,9 @@ package meow.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents an event task with a description, start time, and end time.
+ */
 public class Event extends Task{
     protected LocalDateTime from;
     protected LocalDateTime to;
@@ -13,6 +16,11 @@ public class Event extends Task{
         this.to  = to;
     }
 
+    /**
+     * Returns a string representation of the Event task,
+     *
+     * @return a formatted string representing the event task
+     */
     @Override
     public String toString() {
         return "[E]" + super.toString() + " (from: "

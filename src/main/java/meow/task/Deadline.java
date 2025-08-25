@@ -3,6 +3,9 @@ package meow.task;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a deadline task with a description and a due date/time.
+ */
 public class Deadline extends Task {
 
     protected LocalDateTime by;
@@ -12,6 +15,11 @@ public class Deadline extends Task {
         this.by = by;
     }
 
+    /**
+     * Returns a string representation of the Deadline task,
+     *
+     * @return a formatted string representing the deadline task
+     */
     @Override
     public String toString() {
         return "[D]" + super.toString() + " (by: "

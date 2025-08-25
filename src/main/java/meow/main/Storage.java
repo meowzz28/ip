@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+/**
+ * Handles reading from and writing to the task storage file.
+ */
 public class Storage {
     private final String filePath;
 
@@ -16,7 +20,14 @@ public class Storage {
         this.filePath = filePath;
     }
 
-    protected ArrayList<Task> getTasks() throws MeowException {
+    /**
+     * Get tasks from the storage file.
+     * If the file does not exist, it creates a new empty file and returns an empty list.
+     *
+     * @return an ArrayList of Task objects loaded from the file
+     * @throws MeowException if there is an I/O error or if a saved task is invalid
+     */
+    public ArrayList<Task> getTasks() throws MeowException {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
             File f = new File("./data/meow.txt");
@@ -40,7 +51,7 @@ public class Storage {
         return tasks;
     }
 
-    protected void save(TaskList tasks) {
+    public void save(TaskList tasks) {
         try {
             FileWriter fw = new FileWriter(filePath);
             for (Task task : tasks.getTasks()) {

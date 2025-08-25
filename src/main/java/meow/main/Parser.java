@@ -10,7 +10,22 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+
+/**
+ * Responsible for interpreting user commands.
+ */
 public class Parser {
+    /**
+     * Parses input command from command and executes the corresponding action,
+     * Updates the TaskList and Storage if needed.
+     *
+     * @param input   raw input string entered by the user
+     * @param tasks   current task list
+     * @param ui      class for printing messages to the user
+     * @param storage class for saving tasks
+     * @return true if the user issued the exit command "bye", false otherwise
+     * @throws MeowException if the command is invalid or improperly formatted
+     */
     public static boolean parse(String input, TaskList tasks, Ui ui, Storage storage) throws MeowException {
         String[] words = input.split(" ");
         switch (words[0]) {
