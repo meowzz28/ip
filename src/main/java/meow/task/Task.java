@@ -30,7 +30,11 @@ public class Task {
         return "[" + getStatusIcon() + "] "  + description;
     }
 
-    public boolean isDone(){
+    public boolean isDone() {
         return this.isDone;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 }

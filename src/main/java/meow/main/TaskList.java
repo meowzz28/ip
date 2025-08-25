@@ -3,6 +3,7 @@ package meow.main;
 import meow.task.Task;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class TaskList {
     private final ArrayList<Task> tasks;
@@ -45,6 +46,16 @@ public class TaskList {
         Task task = tasks.get(index);
         task.markUndone();
         return task;
+    }
+
+    public ArrayList<Task> findTasks(String keyword) {
+        ArrayList<Task> matches = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
+                matches.add(task);
+            }
+        }
+        return matches;
     }
 
 }
