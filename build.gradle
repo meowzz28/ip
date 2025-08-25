@@ -37,8 +37,7 @@ application {
 }
 
 shadowJar {
-    archiveBaseName = "duke"
-    archiveClassifier = null
+    archiveFileName = 'meow.jar'
 }
 
 run{
