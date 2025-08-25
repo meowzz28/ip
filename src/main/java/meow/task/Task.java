@@ -47,12 +47,13 @@ public class Task {
         return "[" + getStatusIcon() + "] "  + description;
     }
 
+
     /**
      * Returns whether the task is marked as done.
      *
      * @return true if the task is done, false otherwise
      */
-    public boolean isDone(){
+    public boolean isDone() {
         return this.isDone;
     }
 }
