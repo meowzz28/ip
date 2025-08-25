@@ -9,6 +9,7 @@ import meow.task.Todo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 
 /**
@@ -99,6 +100,14 @@ public class Parser {
             Task deleted = tasks.delete(Integer.parseInt(words[1]) - 1);
             ui.printDeletedTask(deleted, tasks.size());
             storage.save(tasks);
+            break;
+        case "find":
+            if (words.length < 2) {
+                throw new MeowException("OOPS!!! Please tell me the keyword to search.");
+            }
+            String keyword = words[1];
+            ArrayList<Task> found = tasks.findTasks(keyword);
+            ui.printFoundTasks(found);
             break;
         default:
             throw new MeowException("OOPS!!! I'm sorry, but I don't know what that means :-(");
