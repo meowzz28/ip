@@ -1,9 +1,8 @@
 package meow.main;
 
-import meow.task.Task;
-
 import java.util.ArrayList;
-import java.util.Locale;
+
+import meow.task.Task;
 
 /**
  * Manages a list of Task objects.

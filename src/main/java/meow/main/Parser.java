@@ -1,16 +1,15 @@
 package meow.main;
 
-import meow.exception.MeowException;
-import meow.task.Deadline;
-import meow.task.Event;
-import meow.task.Task;
-import meow.task.Todo;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
+import meow.exception.MeowException;
+import meow.task.Deadline;
+import meow.task.Event;
+import meow.task.Task;
+import meow.task.Todo;
 
 /**
  * Responsible for interpreting user commands.
@@ -133,6 +132,7 @@ public class Parser {
         case "E":
             task = new Event(info[2], parseDateTime(info[3]), parseDateTime(info[4]));
             break;
+        default:
         }
         if (task != null && isDone) {
             task.markDone();
@@ -146,7 +146,8 @@ public class Parser {
                     ? LocalDateTime.parse(str, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
                     : LocalDateTime.parse(str + " 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         } catch (DateTimeParseException e) {
-            throw new MeowException("OOPS!!! Please enter date in yyyy-MM-dd format optionally followed by time HH:mm.");
+            throw new MeowException("OOPS!!! Please enter date "
+                    + "in yyyy-MM-dd format optionally followed by time HH:mm.");
         }
     }
 
@@ -155,7 +156,8 @@ public class Parser {
         try {
             by = parseDateTime(byString);
         } catch (DateTimeParseException e) {
-            throw new MeowException("OOPS!!! Please enter date in yyyy-MM-dd format optionally followed by time HH:mm.");
+            throw new MeowException("OOPS!!! Please enter date "
+                    + "in yyyy-MM-dd format optionally followed by time HH:mm.");
         }
         return new Deadline(description, by);
     }
@@ -167,7 +169,8 @@ public class Parser {
             from = parseDateTime(fromString);
             to = parseDateTime(toString);
         } catch (DateTimeParseException e) {
-            throw new MeowException("OOPS!!! Please enter date in yyyy-MM-dd format optionally followed by time HH:mm.");
+            throw new MeowException("OOPS!!! Please enter date "
+                    + "in yyyy-MM-dd format optionally followed by time HH:mm.");
         }
         return new Event(description, from, to);
     }

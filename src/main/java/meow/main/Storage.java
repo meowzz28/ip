@@ -1,14 +1,13 @@
 package meow.main;
 
-import meow.exception.MeowException;
-import meow.task.Task;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import meow.exception.MeowException;
+import meow.task.Task;
 
 /**
  * Handles reading from and writing to the task storage file.

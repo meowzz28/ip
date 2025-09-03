@@ -1,11 +1,14 @@
 package meow.main;
 
-import meow.exception.MeowException;
-import meow.task.Task;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import meow.exception.MeowException;
+import meow.task.Task;
 
 public class ParserTest {
     private TaskList tasks;
@@ -31,14 +34,14 @@ public class ParserTest {
     }
 
     @Test
-    public void exitCase_bye_exitSuccess() throws MeowException{
+    public void exitCase_bye_exitSuccess() throws MeowException {
         boolean exit = Parser.parse("bye", tasks, ui, storage);
         assertTrue(exit);
         assertTrue(ui.lastMessage.contains("Bye"));
     }
 
     private static class StubUi extends Ui {
-        String lastMessage = "";
+        private String lastMessage = "";
         @Override
         public void printExitMessage() {
             lastMessage = "Bye!";
@@ -62,8 +65,10 @@ public class ParserTest {
     }
 
     private static class StubStorage extends Storage {
-        boolean saved = false;
-        StubStorage() { super("test.txt"); }
+        private boolean saved = false;
+        StubStorage() {
+            super("test.txt");
+        }
         @Override
         public void save(TaskList tasks) {
             saved = true;
