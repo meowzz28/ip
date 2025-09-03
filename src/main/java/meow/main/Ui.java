@@ -1,9 +1,9 @@
 package meow.main;
 
-import meow.task.Task;
-
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import meow.task.Task;
 
 /**
  * Handles printing messages to users
@@ -117,7 +117,7 @@ public class Ui {
 
     public void printFoundTasks(ArrayList<Task> tasks) {
         printLine();
-        System.out.println("\tHere are the matching tasks in your list:" );
+        System.out.println("\tHere are the matching tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println("\t" + (i + 1) + ". " + tasks.get(i));
         }
