@@ -26,31 +26,27 @@ public class Parser {
      * @return true if the user issued the exit command "bye", false otherwise
      * @throws MeowException if the command is invalid or improperly formatted
      */
-    public static boolean parse(String input, TaskList tasks, Ui ui, Storage storage) throws MeowException {
+    public static String parse(String input, TaskList tasks, Ui ui, Storage storage) throws MeowException {
         String[] words = input.split(" ");
         switch (words[0]) {
         case "bye":
-            ui.printExitMessage();
-            return true;
+            return ui.getExitMessage();
         case "list":
-            ui.printTasks(tasks);
-            break;
+            return ui.getTasks(tasks);
         case "mark":
             if (words.length < 2) {
                 throw new MeowException("OOPS!!! Please tell me which task number to mark.");
             }
             Task mark = tasks.markDone(Integer.parseInt(words[1]) - 1);
-            ui.printMarked(mark);
             storage.save(tasks);
-            break;
+            return ui.getMarked(mark);
         case "unmark":
             if (words.length < 2) {
                 throw new MeowException("OOPS!!! Please tell me which task number to unmark.");
             }
             Task unmark = tasks.markUndone(Integer.parseInt(words[1]) - 1);
-            ui.printMarked(unmark);
             storage.save(tasks);
-            break;
+            return ui.getMarked(unmark);
         case "todo":
             String description1 = input.substring("todo".length()).trim();
             if (description1.isEmpty()) {
@@ -58,9 +54,8 @@ public class Parser {
             }
             Todo todo = new Todo(description1);
             tasks.add(todo);
-            ui.printAddedTask(todo, tasks.size());
             storage.save(tasks);
-            break;
+            return ui.getAddedTask(todo, tasks.size());
         case "deadline":
             if (!input.contains("/by")) {
                 throw new MeowException("OOPS!!! A deadline must include '/by'. "
@@ -73,9 +68,8 @@ public class Parser {
             }
             Deadline deadline = createDeadlineTask(description2, parts[1].trim());
             tasks.add(deadline);
-            ui.printAddedTask(deadline, tasks.size());
             storage.save(tasks);
-            break;
+            return ui.getAddedTask(deadline, tasks.size());
         case "event":
             if (!input.contains("/from") || !input.contains("/to")) {
                 throw new MeowException("OOPS!!! An event must include both '/from' and '/to'. "
@@ -89,29 +83,25 @@ public class Parser {
             String[] secondSplit = firstSplit[1].split(" /to ", 2);
             Event event = createEventTask(description3, secondSplit[0].trim(), secondSplit[1].trim());
             tasks.add(event);
-            ui.printAddedTask(event, tasks.size());
             storage.save(tasks);
-            break;
+            return ui.getAddedTask(event, tasks.size());
         case "delete":
             if (words.length < 2) {
                 throw new MeowException("OOPS!!! Please tell me which task number to delete.");
             }
             Task deleted = tasks.delete(Integer.parseInt(words[1]) - 1);
-            ui.printDeletedTask(deleted, tasks.size());
             storage.save(tasks);
-            break;
+            return ui.getDeletedTask(deleted, tasks.size());
         case "find":
             if (words.length < 2) {
                 throw new MeowException("OOPS!!! Please tell me the keyword to search.");
             }
             String keyword = words[1];
             ArrayList<Task> found = tasks.findTasks(keyword);
-            ui.printFoundTasks(found);
-            break;
+            return ui.getFoundTasks(found);
         default:
             throw new MeowException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
-        return false;
     }
 
     public static Task parseSavedTask(String line) throws MeowException {

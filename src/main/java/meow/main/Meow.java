@@ -1,12 +1,19 @@
 package meow.main;
 
+import java.io.IOException;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import meow.exception.MeowException;
 
 /**
  * Main class for Meow Java Project
  * Responsible for the main interaction loop with the user
  */
-public class Meow {
+public class Meow extends Application {
 
     private Storage storage;
     private TaskList tasks;
@@ -18,34 +25,41 @@ public class Meow {
         try {
             tasks = new TaskList(storage.getTasks());
         } catch (MeowException e) {
-            ui.printLoadingError();
             tasks = new TaskList();
         }
     }
 
-    /**
-     * Runs the application.
-     * Continuously reads user input, parses commands, and updates tasks.
-     * Stops when the user issues the exit command.
-     */
-    public void run() {
-        ui.printGreetMessage();
-        while (true) {
-            try {
-                String input = ui.readCommand();
-                boolean isExit = Parser.parse(input, tasks, ui, storage);
-                if (isExit) {
-                    break;
-                }
-            } catch (MeowException e) {
-                ui.printError(e.getMessage());
-            } catch (Exception e) {
-                ui.printError("Unexpected error: " + e.getMessage());
-            }
+    public Meow() {
+        this("./data/meow.txt");
+    }
+
+
+    @Override
+    public void start(Stage stage) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Meow.class.getResource("/view/MeowWindow.fxml"));
+            AnchorPane ap = fxmlLoader.load();
+            Scene scene = new Scene(ap);
+            stage.setScene(scene);
+            fxmlLoader.<MeowWindow>getController().setMeow(this); // inject the Duke instance
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) {
-        new Meow("./data/meow.txt").run();
+    /**
+     * Generates a response for the user's chat message.
+     */
+    public String getResponse(String input) {
+        try {
+            String response = Parser.parse(input, tasks, ui, storage);
+            return response;
+        } catch (MeowException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return "Unexpected error: " + e.getMessage();
+        }
     }
+
 }
