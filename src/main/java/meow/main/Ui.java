@@ -21,18 +21,38 @@ public class Ui {
         return message;
     }
 
+    /**
+     * Returns a message confirming a task has been added.
+     *
+     * @param task  the task that was added
+     * @param total the total number of tasks after addition
+     * @return confirmation message string
+     */
     public String getAddedTask(Task task, int total) {
         return "Got it. I've added this task:\n"
                 + "  " + task + "\n"
                 + "Now you have " + total + " tasks in the list.";
     }
 
+    /**
+     * Returns a message confirming a task has been deleted.
+     *
+     * @param task  the task that was deleted
+     * @param total the total number of tasks after deletion
+     * @return confirmation message string
+     */
     public String getDeletedTask(Task task, int total) {
         return "Noted. I've removed this task:\n"
                 + "  " + task + "\n"
                 + "Now you have " + total + " tasks in the list.";
     }
 
+    /**
+     * Returns a message confirming a task has been marked as done or not done.
+     *
+     * @param task the task that was marked
+     * @return confirmation message string
+     */
     public String getMarked(Task task) {
         String status = task.isDone()
                 ? "Nice! I've marked this task as done:\n"
@@ -49,6 +69,12 @@ public class Ui {
         return sb.toString().trim();
     }
 
+    /**
+     * Returns a formatted list of tasks matching a search query.
+     *
+     * @param tasks the list of matching tasks
+     * @return formatted string of found tasks
+     */
     public String getFoundTasks(ArrayList<Task> tasks) {
         StringBuilder sb = new StringBuilder();
         sb.append("Here are the matching tasks in your list:\n");

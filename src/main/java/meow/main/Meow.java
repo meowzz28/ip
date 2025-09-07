@@ -41,7 +41,7 @@ public class Meow extends Application {
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);
             stage.setScene(scene);
-            fxmlLoader.<MeowWindow>getController().setMeow(this); // inject the Duke instance
+            fxmlLoader.<MeowWindow>getController().setMeow(this); // inject the Meow instance
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

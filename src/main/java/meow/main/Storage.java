@@ -20,7 +20,7 @@ public class Storage {
     }
 
     /**
-     * Get tasks from the storage file.
+     * Gets tasks from the storage file.
      * If the file does not exist, it creates a new empty file and returns an empty list.
      *
      * @return an ArrayList of Task objects loaded from the file
