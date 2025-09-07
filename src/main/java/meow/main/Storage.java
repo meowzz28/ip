@@ -1,8 +1,9 @@
 package meow.main;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -53,11 +54,11 @@ public class Storage {
 
     public void save(TaskList tasks) {
         try {
-            FileWriter fw = new FileWriter(filePath);
-            for (Task task : tasks.getTasks()) {
-                fw.write(task.saveTaskString() + System.lineSeparator());
-            }
-            fw.close();
+            Path path = Path.of(filePath);
+            Files.write(path,
+                    tasks.getTasks().stream()
+                            .map(Task::saveTaskString)
+                            .toList());
         } catch (IOException exception) {
             System.out.println("\tError saving tasks: " + exception.getMessage());
         }
