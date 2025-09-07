@@ -27,91 +27,125 @@ public class Parser {
      * @throws MeowException if the command is invalid or improperly formatted
      */
     public static String parse(String input, TaskList tasks, Ui ui, Storage storage) throws MeowException {
+
         String[] words = input.split(" ");
+
         switch (words[0]) {
         case "bye":
             return ui.getExitMessage();
+
         case "list":
             return ui.getTasks(tasks);
+
         case "mark":
             if (words.length < 2) {
                 throw new MeowException("OOPS!!! Please tell me which task number to mark.");
             }
+
             Task mark = tasks.markDone(Integer.parseInt(words[1]) - 1);
             storage.save(tasks);
             return ui.getMarked(mark);
+
         case "unmark":
             if (words.length < 2) {
                 throw new MeowException("OOPS!!! Please tell me which task number to unmark.");
             }
+
             Task unmark = tasks.markUndone(Integer.parseInt(words[1]) - 1);
             storage.save(tasks);
             return ui.getMarked(unmark);
+
         case "todo":
             String description1 = input.substring("todo".length()).trim();
+
             if (description1.isEmpty()) {
                 throw new MeowException("OOPS!!! The description of a todo cannot be empty.");
             }
+
             Todo todo = new Todo(description1);
             tasks.add(todo);
             storage.save(tasks);
             return ui.getAddedTask(todo, tasks.size());
+
         case "deadline":
             if (!input.contains("/by")) {
                 throw new MeowException("OOPS!!! A deadline must include '/by'. "
                         + "Example: deadline return book /by Sunday");
             }
+
             String[] parts = input.split(" /by ", 2);
             String description2 = parts[0].substring("deadline".length()).trim();
+
             if (description2.isEmpty()) {
                 throw new MeowException("OOPS!!! The description of a deadline cannot be empty!");
             }
+
             Deadline deadline = createDeadlineTask(description2, parts[1].trim());
             tasks.add(deadline);
             storage.save(tasks);
             return ui.getAddedTask(deadline, tasks.size());
+
         case "event":
             if (!input.contains("/from") || !input.contains("/to")) {
                 throw new MeowException("OOPS!!! An event must include both '/from' and '/to'. "
                         + "Example: event meeting /from Mon 2pm /to 4pm");
             }
+
             String[] firstSplit = input.split(" /from ", 2);
             String description3 = firstSplit[0].substring("event".length()).trim();
+
             if (description3.isEmpty()) {
                 throw new MeowException("OOPS!!! The description of an event cannot be empty!");
             }
+
             String[] secondSplit = firstSplit[1].split(" /to ", 2);
             Event event = createEventTask(description3, secondSplit[0].trim(), secondSplit[1].trim());
             tasks.add(event);
             storage.save(tasks);
             return ui.getAddedTask(event, tasks.size());
+
         case "delete":
             if (words.length < 2) {
                 throw new MeowException("OOPS!!! Please tell me which task number to delete.");
             }
+
             Task deleted = tasks.delete(Integer.parseInt(words[1]) - 1);
             storage.save(tasks);
             return ui.getDeletedTask(deleted, tasks.size());
+
         case "find":
             if (words.length < 2) {
                 throw new MeowException("OOPS!!! Please tell me the keyword to search.");
             }
+
             String keyword = words[1];
             ArrayList<Task> found = tasks.findTasks(keyword);
             return ui.getFoundTasks(found);
+
         default:
             throw new MeowException("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
     }
 
+    /**
+     * Parses a saved task string from storage into a Task object.
+     *
+     * @param line the raw saved task string from storage
+     * @return the reconstructed Task object
+     * @throws MeowException if the saved string is invalid or parsing fails
+     */
     public static Task parseSavedTask(String line) throws MeowException {
+
         String[] info = line.split("\\|");
+
         for (int i = 0; i < info.length; i++) {
             info[i] = info[i].trim();
         }
+
         String type = info[0];
         boolean isDone = info[1].equals("1");
         Task task = null;
+
         switch (type) {
         case "T":
             task = new Todo(info[2]);
@@ -124,9 +158,11 @@ public class Parser {
             break;
         default:
         }
+
         if (task != null && isDone) {
             task.markDone();
         }
+
         return task;
     }
 
@@ -143,18 +179,21 @@ public class Parser {
 
     private static Deadline createDeadlineTask(String description, String byString) throws MeowException {
         LocalDateTime by;
+
         try {
             by = parseDateTime(byString);
         } catch (DateTimeParseException e) {
             throw new MeowException("OOPS!!! Please enter date "
                     + "in yyyy-MM-dd format optionally followed by time HH:mm.");
         }
+
         return new Deadline(description, by);
     }
 
     private static Event createEventTask(String description, String fromString, String toString) throws MeowException {
         LocalDateTime from;
         LocalDateTime to;
+
         try {
             from = parseDateTime(fromString);
             to = parseDateTime(toString);
@@ -162,6 +201,7 @@ public class Parser {
             throw new MeowException("OOPS!!! Please enter date "
                     + "in yyyy-MM-dd format optionally followed by time HH:mm.");
         }
+
         return new Event(description, from, to);
     }
 
