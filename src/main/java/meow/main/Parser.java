@@ -1,5 +1,6 @@
 package meow.main;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import meow.exception.MeowException;
 import meow.task.Deadline;
 import meow.task.Event;
+import meow.task.FixedDurationTask;
 import meow.task.Task;
 import meow.task.Todo;
 
@@ -104,6 +106,25 @@ public class Parser {
             storage.save(tasks);
             return ui.getAddedTask(event, tasks.size());
 
+        case "fixed":
+            if (!input.contains("/needs")) {
+                throw new MeowException("OOPS!!! A fixed duration task must include '/needs'. "
+                        + "Example: fixed read report /needs 2h 30m");
+            }
+
+            String[] fixedSplit = input.split(" /needs", 2);
+            String fixedDescription = fixedSplit[0].substring("fixed".length()).trim();
+
+            if (fixedDescription.isEmpty()) {
+                throw new MeowException("OOPS!!! The description of a fixed duration task cannot be empty!");
+            }
+
+            Duration duration = parseDuration(fixedSplit[1].trim());
+            FixedDurationTask fixedTask = new FixedDurationTask(fixedDescription, duration);
+            tasks.add(fixedTask);
+            storage.save(tasks);
+            return ui.getAddedTask(fixedTask, tasks.size());
+
         case "delete":
             if (words.length < 2) {
                 throw new MeowException("OOPS!!! Please tell me which task number to delete.");
@@ -124,6 +145,37 @@ public class Parser {
 
         default:
             throw new MeowException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+        }
+    }
+
+    /**
+     * Parses a duration string into a Duration object.
+     *
+     * @param input the raw duration string entered by the user
+     * @return a Duration representing the parsed duration
+     * @throws MeowException if the input format is invalid
+     */
+    private static Duration parseDuration(String input) throws MeowException {
+        try {
+            long hours = 0;
+            long minutes = 0;
+
+            input = input.toLowerCase().trim();
+            String[] parts = input.split(" ");
+
+            for (String part : parts) {
+                if (part.endsWith("h")) {
+                    hours += Long.parseLong(part.replace("h", ""));
+                } else if (part.endsWith("m")) {
+                    minutes += Long.parseLong(part.replace("m", ""));
+                } else {
+                    throw new NumberFormatException();
+                }
+            }
+
+            return Duration.ofHours(hours).plusMinutes(minutes);
+        } catch (NumberFormatException e) {
+            throw new MeowException("OOPS!!! Duration must be in format like '2h', '90m', or '1h 30m'.");
         }
     }
 
@@ -155,6 +207,10 @@ public class Parser {
             break;
         case "E":
             task = new Event(info[2], parseDateTime(info[3]), parseDateTime(info[4]));
+            break;
+        case "F":
+            long minutes = Long.parseLong(info[3]);
+            task = new FixedDurationTask(info[2], Duration.ofMinutes(minutes));
             break;
         default:
             assert false : "Unexpected task type: " + type;

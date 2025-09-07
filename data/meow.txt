@@ -4,3 +4,4 @@ D | 1 | homework | 2025-08-25 00:00
 T | 1 | sleep
 E | 0 | project meeting | 2020-05-25 14:00 | 2020-05-25 14:30
 T | 0 | sleep
+F | 1 | read report | 135
