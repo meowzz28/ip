@@ -35,6 +35,7 @@ public class TaskList {
      * @return the Task at the given index
      */
     public Task get(int index) {
+        assert index >= 0 && index < tasks.size() : "Index out of bounds in get()";
         return tasks.get(index);
     }
 
@@ -62,18 +63,21 @@ public class TaskList {
      * @return the Task that was marked
      */
     public Task markDone(int index) {
+        assert index >= 0 && index < tasks.size() : "Index out of bounds in markDone()";
         Task task = tasks.get(index);
         task.markDone();
         return task;
     }
 
     public Task markUndone(int index) {
+        assert index >= 0 && index < tasks.size() : "Index out of bounds in markUndone()";
         Task task = tasks.get(index);
         task.markUndone();
         return task;
     }
 
     public ArrayList<Task> findTasks(String keyword) {
+        assert keyword != null : "Keyword cannot be null";
         ArrayList<Task> matches = new ArrayList<>();
 
         for (Task task : tasks) {
