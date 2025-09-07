@@ -123,8 +123,9 @@ public class Parser {
             task = new Event(info[2], parseDateTime(info[3]), parseDateTime(info[4]));
             break;
         default:
+            assert false : "Unexpected task type: " + type;
         }
-        if (task != null && isDone) {
+        if (isDone) {
             task.markDone();
         }
         return task;

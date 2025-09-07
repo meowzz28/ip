@@ -16,6 +16,7 @@ public class Storage {
     private final String filePath;
 
     public Storage(String filePath) {
+        assert filePath != null && !filePath.trim().isEmpty() : "File path cannot be null or empty";
         this.filePath = filePath;
     }
 
@@ -29,7 +30,7 @@ public class Storage {
     public ArrayList<Task> getTasks() throws MeowException {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
-            File f = new File("./data/meow.txt");
+            File f = new File(this.filePath);
             if (!f.exists()) {
                 f.getParentFile().mkdirs();
                 f.createNewFile();
