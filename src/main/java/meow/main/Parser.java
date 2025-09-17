@@ -41,7 +41,7 @@ public class Parser {
 
         case "mark":
             if (words.length < 2) {
-                throw new MeowException("OOPS!!! Please tell me which task number to mark.");
+                throw new MeowException(" Please tell me which task number to mark.");
             }
 
             Task mark = tasks.markDone(Integer.parseInt(words[1]) - 1);
@@ -50,7 +50,7 @@ public class Parser {
 
         case "unmark":
             if (words.length < 2) {
-                throw new MeowException("OOPS!!! Please tell me which task number to unmark.");
+                throw new MeowException(" Please tell me which task number to unmark.");
             }
 
             Task unmark = tasks.markUndone(Integer.parseInt(words[1]) - 1);
@@ -61,7 +61,7 @@ public class Parser {
             String description1 = input.substring("todo".length()).trim();
 
             if (description1.isEmpty()) {
-                throw new MeowException("OOPS!!! The description of a todo cannot be empty.");
+                throw new MeowException(" The description of a todo cannot be empty.");
             }
 
             Todo todo = new Todo(description1);
@@ -71,7 +71,7 @@ public class Parser {
 
         case "deadline":
             if (!input.contains("/by")) {
-                throw new MeowException("OOPS!!! A deadline must include '/by'. "
+                throw new MeowException(" A deadline must include '/by'. "
                         + "Example: deadline return book /by Sunday");
             }
 
@@ -79,7 +79,7 @@ public class Parser {
             String description2 = parts[0].substring("deadline".length()).trim();
 
             if (description2.isEmpty()) {
-                throw new MeowException("OOPS!!! The description of a deadline cannot be empty!");
+                throw new MeowException(" The description of a deadline cannot be empty!");
             }
 
             Deadline deadline = createDeadlineTask(description2, parts[1].trim());
@@ -89,7 +89,7 @@ public class Parser {
 
         case "event":
             if (!input.contains("/from") || !input.contains("/to")) {
-                throw new MeowException("OOPS!!! An event must include both '/from' and '/to'. "
+                throw new MeowException(" An event must include both '/from' and '/to'. "
                         + "Example: event meeting /from Mon 2pm /to 4pm");
             }
 
@@ -97,7 +97,7 @@ public class Parser {
             String description3 = firstSplit[0].substring("event".length()).trim();
 
             if (description3.isEmpty()) {
-                throw new MeowException("OOPS!!! The description of an event cannot be empty!");
+                throw new MeowException(" The description of an event cannot be empty!");
             }
 
             String[] secondSplit = firstSplit[1].split(" /to ", 2);
@@ -108,7 +108,7 @@ public class Parser {
 
         case "fixed":
             if (!input.contains("/needs")) {
-                throw new MeowException("OOPS!!! A fixed duration task must include '/needs'. "
+                throw new MeowException(" A fixed duration task must include '/needs'. "
                         + "Example: fixed read report /needs 2h 30m");
             }
 
@@ -116,7 +116,7 @@ public class Parser {
             String fixedDescription = fixedSplit[0].substring("fixed".length()).trim();
 
             if (fixedDescription.isEmpty()) {
-                throw new MeowException("OOPS!!! The description of a fixed duration task cannot be empty!");
+                throw new MeowException(" The description of a fixed duration task cannot be empty!");
             }
 
             Duration duration = parseDuration(fixedSplit[1].trim());
@@ -127,7 +127,7 @@ public class Parser {
 
         case "delete":
             if (words.length < 2) {
-                throw new MeowException("OOPS!!! Please tell me which task number to delete.");
+                throw new MeowException(" Please tell me which task number to delete.");
             }
 
             Task deleted = tasks.delete(Integer.parseInt(words[1]) - 1);
@@ -136,7 +136,7 @@ public class Parser {
 
         case "find":
             if (words.length < 2) {
-                throw new MeowException("OOPS!!! Please tell me the keyword to search.");
+                throw new MeowException(" Please tell me the keyword to search.");
             }
 
             String keyword = words[1];
@@ -144,7 +144,7 @@ public class Parser {
             return ui.getFoundTasks(found);
 
         default:
-            throw new MeowException("OOPS!!! I'm sorry, but I don't know what that means :-(");
+            throw new MeowException(" I'm sorry, but I don't know what that means :-(");
         }
     }
 
@@ -175,7 +175,7 @@ public class Parser {
 
             return Duration.ofHours(hours).plusMinutes(minutes);
         } catch (NumberFormatException e) {
-            throw new MeowException("OOPS!!! Duration must be in format like '2h', '90m', or '1h 30m'.");
+            throw new MeowException(" Duration must be in format like '2h', '90m', or '1h 30m'.");
         }
     }
 
@@ -228,7 +228,7 @@ public class Parser {
                     ? LocalDateTime.parse(str, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
                     : LocalDateTime.parse(str + " 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         } catch (DateTimeParseException e) {
-            throw new MeowException("OOPS!!! Please enter date "
+            throw new MeowException(" Please enter date "
                     + "in yyyy-MM-dd format optionally followed by time HH:mm.");
         }
     }
@@ -239,7 +239,7 @@ public class Parser {
         try {
             by = parseDateTime(byString);
         } catch (DateTimeParseException e) {
-            throw new MeowException("OOPS!!! Please enter date "
+            throw new MeowException(" Please enter date "
                     + "in yyyy-MM-dd format optionally followed by time HH:mm.");
         }
 
@@ -254,7 +254,7 @@ public class Parser {
             from = parseDateTime(fromString);
             to = parseDateTime(toString);
         } catch (DateTimeParseException e) {
-            throw new MeowException("OOPS!!! Please enter date "
+            throw new MeowException(" Please enter date "
                     + "in yyyy-MM-dd format optionally followed by time HH:mm.");
         }
 

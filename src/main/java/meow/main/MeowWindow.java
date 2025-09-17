@@ -25,7 +25,7 @@ public class MeowWindow extends AnchorPane {
     private Meow meow;
 
     private Image userImage = new Image(this.getClass().getResourceAsStream("/images/oiia.jpeg"));
-    private Image meowImage = new Image(this.getClass().getResourceAsStream("/images/huh.jpg"));
+    private Image meowImage = new Image(this.getClass().getResourceAsStream("/images/huh.jpeg"));
 
     @FXML
     public void initialize() {

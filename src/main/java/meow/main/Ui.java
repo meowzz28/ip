@@ -10,7 +10,7 @@ import meow.task.Task;
 public class Ui {
 
     public String getGreetMessage() {
-        return "Hello! I'm Meow\nWhat can I do for you?";
+        return "Huh? What can I do for you?";
     }
 
     public String getExitMessage() {
