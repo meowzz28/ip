@@ -28,7 +28,7 @@ public class ParserTest {
         Task t = tasks.get(0);
         assertEquals("[T][ ] read book", t.toString());
         assertTrue(response.contains("added"));
-        assertTrue(storage.saved, "Storage should be saved");
+        assertTrue(storage.isSaved, "Storage should be saved");
     }
 
     @Test
@@ -38,13 +38,13 @@ public class ParserTest {
     }
 
     private static class StubStorage extends Storage {
-        private boolean saved = false;
+        private boolean isSaved = false;
         StubStorage() {
             super("test.txt");
         }
         @Override
         public void save(TaskList tasks) {
-            saved = true;
+            isSaved = true;
         }
     }
 }
