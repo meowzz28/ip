@@ -72,10 +72,16 @@ public class Parser {
         case "deadline":
             if (!input.contains("/by")) {
                 throw new MeowException(" A deadline must include '/by'. "
-                        + "Example: deadline return book /by Sunday");
+                        + "Example: deadline Submit assignment /by 2025-09-18 23:59");
             }
 
-            String[] parts = input.split(" /by ", 2);
+            String[] parts = input.split("\\s+/by\\s+", 2);
+
+            if (parts.length < 2) {
+                throw new MeowException(" Invalid deadline format. "
+                        + "Example: deadline Submit assignment /by 2025-09-18 23:59");
+            }
+
             String description2 = parts[0].substring("deadline".length()).trim();
 
             if (description2.isEmpty()) {
@@ -90,17 +96,29 @@ public class Parser {
         case "event":
             if (!input.contains("/from") || !input.contains("/to")) {
                 throw new MeowException(" An event must include both '/from' and '/to'. "
-                        + "Example: event meeting /from Mon 2pm /to 4pm");
+                        + "Example: event Team meeting /from 2025-09-17 14:00 /to 2025-09-17 16:00");
             }
 
-            String[] firstSplit = input.split(" /from ", 2);
+            String[] firstSplit = input.split("\\s+/from\\s+", 2);
+
+            if (firstSplit.length < 2) {
+                throw new MeowException(" Invalid event format. "
+                        + "Example: event Team meeting /from 2025-09-17 14:00 /to 2025-09-17 16:00");
+            }
+
             String description3 = firstSplit[0].substring("event".length()).trim();
 
             if (description3.isEmpty()) {
                 throw new MeowException(" The description of an event cannot be empty!");
             }
 
-            String[] secondSplit = firstSplit[1].split(" /to ", 2);
+            String[] secondSplit = firstSplit[1].split("\\s+/to\\s+", 2);
+
+            if (secondSplit.length < 2) {
+                throw new MeowException(" Invalid event format. "
+                        + "Example: event Team meeting /from 2025-09-17 14:00 /to 2025-09-17 16:00");
+            }
+
             Event event = createEventTask(description3, secondSplit[0].trim(), secondSplit[1].trim());
             tasks.add(event);
             storage.save(tasks);
@@ -112,7 +130,13 @@ public class Parser {
                         + "Example: fixed read report /needs 2h 30m");
             }
 
-            String[] fixedSplit = input.split(" /needs", 2);
+            String[] fixedSplit = input.split("\\s+/needs\\s+", 2);
+
+            if (fixedSplit.length < 2) {
+                throw new MeowException(" Invalid fixed task format. "
+                        + "Example: fixed read report /needs 2h 30m");
+            }
+
             String fixedDescription = fixedSplit[0].substring("fixed".length()).trim();
 
             if (fixedDescription.isEmpty()) {
